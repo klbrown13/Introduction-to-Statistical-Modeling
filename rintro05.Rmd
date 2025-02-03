@@ -1,0 +1,403 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+First, install and import the library ggplot2
+```{r}
+install.packages("ggplot2")
+```
+```{r}
+library(ggplot2)
+```
+
+Built-in txhousing dataset
+```{r}
+txhousing
+```
+
+# Part 1: Explore the Dataset
+
+Q1:
+Look at the class, the column names and the dimensions of this dataset. Store (concatenate) the class and the
+dimensions in Q1
+
+```{r}
+class(txhousing)
+
+names(txhousing)
+
+dim(txhousing)
+
+Q1 <- c(class(txhousing), dim(txhousing))
+Q1
+```
+
+Q2:
+Look at the structure of the data set. Like we did in the previous assignment, we will use ls.str(txhousing), so store
+that object in Q2.
+
+```{r}
+Q2 <- ls.str(txhousing) #CodeGrade
+Q2
+```
+
+Q3:
+Provide a summary of the median sales data in Q3.
+
+```{r}
+Q3 <- summary(txhousing$median)
+Q3
+```
+
+Q4:
+Make a table of the year data and store it in Q4.
+
+```{r}
+Q4 <- table(txhousing$year)
+Q4
+```
+
+Q5:
+Make a table and look at the various levels of the city data. Find the number of unique cities in this data set, and
+store that in Q5. Do not simply put Q5 <- {a number}
+
+```{r}
+Q5 <- length(unique(txhousing$city))
+Q5
+```
+
+# Part 2: Visualize Variables of Interest
+
+Q6A:
+Make a horizontal boxplot of the sales data. Label the x- and provide a title. If you need assistance, see
+https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/boxplot or
+https://r-coder.com/boxplot-r/
+
+```{r}
+boxplot(txhousing$sales, horizontal=TRUE, xlab="Sales", main="Large Variability in Sales Texas Houses from 2000-2015")
+```
+
+Q7A:
+Make horizontal comparative boxplots that show how sales have changed over the years (using sales ~ year). Label
+the x- and y-axis and provide a main title. Turn off the frame (the box) around the plot. To rotate the labels on the
+x-axis, use las = 1. If you need assistance, see https://www.statmethods.net/graphs/boxplot.html or
+http://www.sthda.com/english/wiki/box-plots-r-base-graphs
+
+```{r}
+boxplot(txhousing$sales ~ txhousing$year, horizontal=TRUE, xlab="Sales", ylab="Year", frame=FALSE, las=1)
+```
+
+
+Q8A:
+Make horizontal comparative boxplots that show how the median sales price (in the median column) have changed
+over the years. Label the x- and y-axis and provide a main title. Turn off the frame (the box), and color the boxplots
+lightgreen. Rotate the labels so all the years can be seen on the y-axis.
+
+
+```{r}
+boxplot(txhousing$median, horizontal=TRUE, xlab="Median Sale Price($)", main="Housing Prices in Texas (2000-2015)", frame=FALSE)
+
+boxplot(txhousing$median ~ txhousing$year, horizontal=TRUE, xlab="Median Sale Price($)", ylab="Year", main="Housing Prices in Texas (2000-2015)", las=1, col="lightgreen", frame=FALSE)
+```
+
+
+Q9A:
+Create a scatterplot using sales as the explanatory variable (aka, independent variable) and the median sales price as
+the response variable (aka, dependent variable). See the R documentation for more assistance. To fill in the dots to
+make them solid black, use pch=16 (pch stands for “plotting character”). To make the points slightly smaller, use
+cex=0.75.
+
+
+```{r}
+#options(scipen=999)
+plot(median~sales, data=txhousing, pch=16, cex=0.75)
+
+#Things to investigate:
+#1. Whay all the zero sales?
+#2. Note the various clusters; what variable(s) may be causing this? Is it year, city or another?
+```
+
+
+#What's up with all the "zero" sales in the scatterplot above?
+```{r}
+txhousing$sales[txhousing$sales<1]
+```
+
+#Include the line of best fir (ordinary least squares regression line)
+
+```{r}
+plot(median~sales, data = txhousing, pch=16, cex=0.75)
+
+abline(lm(median~sales, data=txhousing), col="red", lwd=4)
+```
+
+
+#Part 3: Cleaning—Identifying and Removing NAs
+
+Q10:
+Count how many rows have missing (NA) values in the median sales price column and store it in Q10. To do this, first
+use is.na() to determine if a value is NA or not, then find the sum of that set. Try to do this in one line of code. For an
+example, see this discussion board post. Do not simply put Q10 <- {a number}.
+
+
+```{r}
+Q10 <- sum(is.na(txhousing$median))
+Q10
+```
+
+
+
+Q11:
+Find the proportion of rows that have missing values in the median sales price column and store in Q11. Do not
+simply put Q11 <- {a proportion}.
+
+```{r}
+Q11 <- sum(is.na(txhousing$median)) / length(txhousing$median)
+Q11
+```
+
+
+
+Q12:
+Identify the indices of the rows that have an NA in the median sales price column. One approach is to use the which()
+function. Store this set of indices as a vector called NA_median_index. For assistance on using which, see
+https://statisticsglobe.com/r-find-missing-values/ or the R documentation on “which”.
+
+
+```{r}
+NA_median_index <- which(is.na(txhousing$median))
+NA_median_index
+
+length(NA_median_index)
+```
+
+
+
+Q13:
+View the dataframe of all the rows with missing values in the median sales price column, but only include the
+columns city, year, sales, and median. Use the NA_median_index vector.
+
+
+```{r}
+# View the entries with missing "median" sales data
+
+# Remove the columns we're not using
+
+txhousing[NA_median_index, c('city', 'year', 'sales', 'median')]
+```
+
+
+Q14:
+View the dataframe of all the rows without missing values in the median sales price column, but only include the
+columns city, year, sales, median, and month. Use the negation (-) of the index vector you made in Q12:
+-NA_median_index (don’t miss the “ - “ sign here!) This step basically removes all the rows that have NAs in this
+column. Store this dataframe as txhousing_clean.
+
+```{r}
+# Notice the negative (negation) in front of NA_median_index
+# Remove the columns we're not using
+
+txhousing[-NA_median_index, c('city', 'year', 'sales', 'median')]
+
+txhousing_clean <- txhousing[-NA_median_index, c('city', 'year', 'sales', 'median')]
+```
+
+
+#Exploring Correlations
+
+```{r}
+cor(txhousing$median, txhousing$listings, use="complete.obs")
+
+cor(txhousing$median, txhousing$sales, use="complete.obs")
+
+cor(txhousing$sales, txhousing$inventory, use="complete.obs")
+
+cor(txhousing$sales, txhousing$listings, use="complete.obs")
+```
+
+
+#Correlation Matrix
+
+```{r}
+#Create a correlation matrix tro view lots of correlations all at once
+
+#Note there are packages (corrplot) that will do this for you with less coding
+
+print(cor(txhousing[, c('sales', 'year', 'inventory', 'listings', 'month', 'median')], use="complete.obs"))
+```
+
+#Part 4: Modeling
+
+Q15:
+Create a linear model predicting median sales price based on sales for the clean dataset. Store the model as mod1.
+
+
+```{r}
+mod1 <- lm(median~sales, data=txhousing_clean)
+mod1
+```
+
+
+
+Q16:
+In your script, run the following code, which looks at only the sales & median columns for the city listed in the first
+row of our cleaned data set: txhousing_clean[1, c("sales", "median")]
+Use the linear model from Q15 and manually write an equation to predict the median sales price using this first
+row’s sales data. Store the equation you used to find the predicted median sales price in Q16.
+To check your answer, use the predict() function, like this: predict(mod1, txhousing_clean[1, ])
+Note that your answer will differ slightly due to rounding.
+
+```{r}
+txhousing_clean[1, c("sales", "median")]
+summary(mod1)
+
+121741.82+11.57*72
+
+predict(mod1, txhousing_clean[1, ])
+```
+
+
+
+Q17:
+Find the regression summary of the linear model predicting median sales price based on sales for the clean dataset.
+Store the summary in Q17.
+Based on the regression output, Is sales statistically significant? Justify your answer.
+
+
+```{r}
+#See what the actual median sale price was for the city in the first row
+txhousing_clean[1,]
+
+#See what the actual median sale price was for the city in the first row
+txhousing_clean[1, c("sales", "median")]
+
+#Use our linear model to predict the median sale price for the city in the first row
+predict(mod1, txhousing_clean[1, ])
+```
+
+```{r}
+Q17 <- summary(mod1)
+summary(lm(median~sales, data=txhousing_clean))
+Q17
+```
+
+
+
+Q18:
+Find the correlation between sales and median sales price for the clean dataset. We did not fully clean the “sales”
+column, use include use = “complete.obs” to avoid getting an NA for the correlation. Round the correlation to the
+nearest hundredth, and store the result in Q18.
+
+
+```{r}
+#The sales column has one NA at position 7653
+#which(is.na(txhousing_clean$sales))
+#txhousing_clean[7653,]
+
+round(cor(txhousing_clean$sales, txhousing_clean$median, use='complete.obs'),2)
+```
+
+Q19:
+Create a multiple regression model using sales and month as predictor variables, and median sales price as the
+response variable. Store the model in mod2, and store the summary of the model in Q19. Is either explanatory
+variable statistically significant?
+
+
+```{r}
+options(scipen=999)
+
+txhousing[-NA_median_index, c('city', 'year', 'sales', 'median', 'month')]
+
+txhousing_clean_2 <- txhousing[-NA_median_index, c('city', 'year', 'sales', 'median', 'month')]
+
+mod2 <- lm(median~sales+month, data=txhousing_clean)
+
+summary(mod2)
+```
+
+
+
+
+
+Q20:
+What is the value of the coefficient of determination (r^2) for mod2? What does this tell you?
+
+R-squared is quite low (0.1199). It is only slightly higher that model 1 (0.119). These two predictors explain only a small amount
+of the variability in median sales price. Square footage, location, number of bedrooms, age of home probably do a better job at making predictions.
+
+* The sales column has one NA in it we did not clean in this lab.
+
+
+
+
+In R, creating a boxplot typically involves using the boxplot() function. Here’s a breakdown of the key parts of the code:
+
+data: The dataset you're plotting.
+x: The grouping variable (if you want boxplots for different categories).
+y: The numeric variable you are visualizing.
+
+
+
+col: Specifies colors for the boxplot.
+main: Title of the boxplot.
+xlab, ylab: Labels for the x-axis and y-axis.
+notch: Boolean (TRUE/FALSE), whether or not to draw a notch in the boxes (helps to assess if the medians are different).
+outline: Boolean (TRUE/FALSE), if TRUE, outliers are displayed.
+horizontal: Boolean (TRUE/FALSE), to make the boxplot horizontal.
+
+
+boxplot(data, col = "lightblue", main = "Boxplot Title", xlab = "Group", ylab = "Values", notch = TRUE)
+
+
+
+In R, creating a histogram typically involves using the hist() function. Here’s a breakdown of the key parts of the code:
+
+col: Specifies the color of the bars in the histogram.
+main: Title of the histogram.
+xlab, ylab: Labels for the x-axis and y-axis.
+xlim, ylim: Set the limits for the x-axis and y-axis.
+breaks: Controls the number of bins or how the data is divided.
+border: Specifies the color of the bar borders.
+
+hist(data, col = "lightblue", main = "Histogram Title", xlab = "Values", ylab = "Frequency", border = "black", breaks = 10)
+
+
+The which() function in R is used to identify the indices of elements in a vector (or any other object) that meet a specified condition. It's commonly used to find the positions of values that satisfy certain logical conditions.
+
+
+To create a linear model in R, you typically use the lm() function, which fits a linear regression model to your data. Here's how you can create and interpret a simple linear model.
+model <- lm(formula, data)
+
+Let's say you have a dataset with two variables, y (the dependent variable) and x (the independent variable), and you want to model the relationship between them.
+
+x <- c(1, 2, 3, 4, 5)
+y <- c(2, 4, 6, 8, 10)
+
+# Create the linear model
+model <- lm(y ~ x)
+
+# View the summary of the model
+summary(model)
+
+
+A linear model in R is a statistical model that describes the relationship between a dependent (response) variable and one or more independent (predictor) variables using a linear equation. Linear models are often used to predict outcomes or understand the relationship between variables.
+
+In R, the linear model is typically created using the lm() function. The model is built on the assumption that the relationship between the dependent and independent variables is linear, meaning the model predicts a straight-line relationship.
+
+
+In R, the predict() function is used to make predictions based on a model that has already been trained (e.g., linear regression, decision tree, etc.). After you fit a model using a function like lm(), glm(), or randomForest(), you can use predict() to generate predictions for new data.
+
+predictions <- predict(model, newdata = mtcars)
+
+
+In R, when we say that a model is "trained," we are referring to the process of fitting a statistical or machine learning model to a dataset so that the model learns the relationships between the input features (predictors) and the target variable (response). The training process involves applying a particular algorithm (like linear regression, decision trees, random forests, etc.) to the data in order to determine the best model parameters (e.g., coefficients, split points, or other model-specific parameters).
+
+
+
+The cor() function in R is used to compute the correlation between two or more variables. Correlation measures the strength and direction of the linear relationship between two variables. The value of correlation ranges from -1 to 1:
+
+    1 indicates a perfect positive linear relationship (as one variable increases, the other increases).
+   -1 indicates a perfect negative linear relationship (as one variable increases, the other decreases).
+    0 indicates no linear relationship.
+cor(x, y = NULL, use = "everything", method = c("pearson", "kendall", "spearman"))
