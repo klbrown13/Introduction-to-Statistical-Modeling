@@ -1,0 +1,145 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# ggplot2 is an open-source data visualization package for the statistical programming language R. 
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+txhousing
+```
+
+Q1. Calculate the mean of the volume variable using the mean function without parameters. Assign it to Q1.
+To access one variable of the dataset, use the $ operator, for example: txhousing$volume.
+
+```{r}
+Q1 <- mean(txhousing$volume)
+
+Q1
+```
+
+
+Q2. Calculate the mean of the volume again. This time, use the parameter na.rm = TRUE.
+Assign it to Q2
+
+
+Compare Q1 and Q2. Ask yourself: What has changed? What is the difference?
+
+R would not calculate the mean when there were missing values (NAs)
+
+```{r}
+Q2 <- mean(txhousing$volume, na.rm = TRUE)
+
+Q2
+```
+
+Q3. Calculate the median of the listings variable. Assign it to Q3. Use what you have learned with the Q1 vs. Q2
+comparison
+
+
+```{r}
+Q3 <- median(txhousing$listings, na.rm = TRUE)
+  
+Q3
+```
+
+Q4. Assign the min value of volume to Q4.
+
+
+```{r}
+Q4 <- min(txhousing$volume, na.rm = TRUE)
+
+Q4
+```
+
+Q5. Assign the max value of volume to Q5.
+
+
+```{r}
+Q5 <- max(txhousing$volume, na.rm = TRUE)
+
+Q5
+```
+
+
+Q6. Calculate the range of the volume. Assign it to Q6. (Hint: Use Q4 and Q5)
+
+
+```{r}
+Q6 <- Q5 - Q4
+
+Q6
+```
+
+How many NAs are there in volume?
+
+```{r}
+is.na(txhousing$volume)
+```
+
+
+Use the sum function to count all the TRUE's from the is.na
+
+```{r}
+sum(is.na(txhousing$volume))
+```
+
+Find the proportion of NAs for the volume variable
+
+There are packages in the DTSC 650 course that have functins to tell you this information. 
+```{r}
+sum(is.na(txhousing$volume)) / length(txhousing$volume)
+```
+
+
+Q7. Calculate the variance of the year variable. Assign it to Q7.
+
+```{r}
+Q7 <- var(txhousing$year)
+
+Q7
+```
+
+
+Q8. Calculate the standard deviation of the volume variable. Assign it to Q8. 
+
+
+```{r}
+Q8 <- sd(txhousing$volume, na.rm = TRUE)
+
+Q8
+```
+
+Q9. Using the summary function, create the summary of the txhousing dataset. Assign it to Q9.
+
+
+```{r}
+Q9 <- summary(txhousing)
+
+Q9
+```
+
+
+Q10. Consider the first row of our dataset. Calculate the z-score of the volume of this observation (row). Assign it to Q10.
+What does this z-score tell you about this observation?
+
+
+```{r}
+txhousing[1, ]
+```
+z score = (raw score - mean) / standard deviation
+
+```{r}
+Q10 <- (5380000 - mean(txhousing$volume, na.rm = TRUE)) / sd(txhousing$volume, na.rm = TRUE)
+
+Q10
+
+```
+
+(5380000 - Q2) / Q8
+
+A z-score of -0.4143106 means this house's volume was 0.4143106 standard deviations below the mean volume. 
