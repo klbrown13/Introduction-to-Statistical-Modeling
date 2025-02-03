@@ -1,0 +1,604 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Q1: Make a new code chunk below. Create a variable called Q1 containing the value of Pi (π) with 4 decimal places.
+
+```{r}
+Q1 <- 3.1415
+```
+
+
+## Q2: Make a new code chunk below. Create a variable called radius containing the value of 3,963. Assuming the Earth is not flat but a perfect circle, calculate the circumference using Q1 and radius. You'll need the formula for the circumference of a circle (easily searchable on Google). Assign the result to Q2.
+
+```{r}
+radius <- 3963
+Q2 <- 2 * Q1 * radius
+Q2
+```
+
+
+
+## Q3: Create a variable called Fibonacci with a vector containing the first 10 numbers from the Fibonacci sequence, starting with 0. Get the 5th element by indexing the Fibonacci variable. Assign it to Q3.
+
+
+What's the Fibonacci sequence? See [here](https://www.mathsisfun.com/numbers/fibonacci-sequence.html)
+
+```{r}
+Fibonacci <- c(0,1,1,2,3,5,8,13,21,34)
+Fibonacci[5]
+```
+
+## Q4: Create a copy of Fibonacci, called Q4. Change the 10th value of Q4 to 99.
+
+```{r}
+Q4 <- Fibonacci
+Q4[10] = 99
+Q4
+```
+
+## Q5: Create Q5 with the sum of Q4.
+
+```{r}
+Q5 <- sum(Q4)
+Q5
+```
+
+## Q6: Create a vector with the 20th, 21st, 34th and 35th Fibonacci numbers and assign it to Q6.
+
+The golden ratio (which is also referred to as the golden mean, divine proportion, or golden section) is approximately 1.6180339887. Create a variable called GR and assign 1.6180339887 to it. For more on the golden ratio, see [here](https://www.mathsisfun.com/numbers/golden-ratio.html)
+
+In mathematics, the Fibonacci sequence and Golden ratio are closely connected. With the following expression we can calculate any Fibonacci number in the sequence:
+
+$$F(n) = \frac{\mbox{GR}^{n-1} - (1-\mbox{GR})^{n-1}}{\sqrt{5}}$$
+
+If n = 10 then n - 1 = 9, then F(10) is...
+
+$$F(10) = \frac{\mbox{GR}^{10-1} - (1-\mbox{GR})^{10-1}}{\sqrt{5}}$$ 
+
+$$F(10) = \frac{\mbox{1.6180339887}^{9} - (1-\mbox{1.6180339887})^{9}}{\sqrt{5}}$$
+
+```{r}
+GR <- 1.6180339887
+
+
+Q6.20 <- (1.6180339887^19 - (1 - 1.6180339887)^19) / sqrt(5)
+Q6.20
+
+Q6.21 <- (1.6180339887^20 - (1 - 1.6180339887)^20) / sqrt(5)
+Q6.21
+
+#Q6.34 
+Q6.34 <- (1.6180339887^33 - (1 - 1.6180339887)^33) / sqrt(5)
+Q6.34
+
+#Q6.35
+Q6.35 <- (1.6180339887^34 - (1 - 1.6180339887)^34) / sqrt(5)
+Q6.35
+
+Q6 <- c(Q6.20, Q6.21, Q6.34, Q6.35)
+Q6
+
+```
+
+## Q7: Calculate the mean of Q6 with 2 decimal places. Assign it to Q7.
+
+```{r}
+Q7 <- round(mean(Q6), 2)
+Q7
+```
+
+## Q8: Create a dataframe with the first column being the position of the Fibonacci number and the second column being the value of the corresponding Fibonacci number. Try two different ways. Store in Q8.
+
+```{r}
+Q8 <- data.frame(Position = c(1:10), Fibonacci_Number = Fibonacci)
+Q8
+```
+
+## Q9: View the first two rows of the dataframe from Q8.
+
+```{r}
+head(Q8, 2)
+```
+
+See the documentation on `head` and `tail` [here](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/head)
+
+## Q10: Using indexing to identify the 5th row, 2nd column from Q8.
+
+```{r}
+Q8
+Q8[5, 2]
+```
+
+# PART 2
+
+## Install and load the "airports" library.
+
+For information about this library, see [here](https://cran.r-project.org/web/packages/airports/airports.pdf)
+
+```{r}
+# Install (Only have to install once)
+# install.packages("airports")
+
+# Load
+library(airports)
+```
+
+## Q11 Print (or view) the airports data in two different ways. Create Q11 with the number of observations (rows) from the usairports dataset.
+
+See [this documentation](https://rdrr.io/r/base/nrow.html)
+
+```{r}
+usairports
+
+Q11 <- nrow(usairports)
+
+# View(usairports)
+```
+
+## Q12: Assign the usairports `class` to Q12
+
+```{r}
+Q12 <- class(usairports)
+```
+
+## Q13: List the names of the variables in the airports data. Do this in two different ways.
+
+```{r}
+names(usairports)
+
+# variables = columns
+# observations = rows
+colnames(usairports)
+```
+## Q14: Summarize one of the categorical variables in a table of counts and a table of proportions.
+```{r}
+# The table() function in R can be used to quickly create frequency tables. 
+table(usairports$state)
+#prop.table(table(usairports$state))
+
+# use proportions(table(usairports$state))
+```
+
+
+### ------------------------------------------------------------------
+
+## Q15: Create a vector with the numbers 1, 2, 3 and assign it to Q15
+
+```{r}
+Q15 <- c(1, 2, 3)
+Q15
+```
+
+## Q16: Create a vector with the strings "Larry Fine", "Curly Howard", and "Moe Howard". Assign it to Q16.
+
+```{r}
+Q16 <- c("Larry Fine", "Curly Howard", "Moe Howard")
+Q16
+```
+
+## Q17: Assign Q15 to Q17. Using Q16, assign the 3 Stooges names in Q17.
+
+```{r}
+Q17 <- Q15
+
+Q17 <- Q16
+
+Q17
+
+```
+
+## Q18: Create a vector with the years 1975, 1952 and 1979. Assign it to Q18.
+
+```{r}
+Q18 <- c(1975, 1952, 1979)
+Q18
+```
+
+## Q19: Create a dataframe with the 3 Stooges and their year of death. Assign it to Q19.
+
+```{r}
+Q19 <- data.frame(Q16, Q18)
+Q19
+```
+
+## Q20: Using a function (not manually), assign to Q20 the mean of the year of death of the 3 Stooges.
+
+```{r}
+Q20 <- mean(Q18)
+Q20
+```
+
+## Q21: Assign Q19 to Q21. Change the year of death of Q21 into a factor.
+
+See [here](https://www.geeksforgeeks.org/convert-a-vector-into-factor-in-r-programming-as-factor-function/)
+
+```{r}
+#use single brackets [ ], double brackets [[ ]] or $ to access columns from a data frame
+# as.factor() - Convert existing vector into a factor
+Q21 <- Q19
+
+Q21$Q18 <- as.factor(Q21$Q18) 
+
+Q21
+```
+
+## Q22: View the dimensions of the Q19 dataframe and store it in Q22. 
+
+```{r}
+#dim() function in R is used to get or set the dimensions of an object. 
+dim(Q19)
+nrow(Q19)
+ncol(Q19)
+```
+
+## Q23: View the first row and all columns of the Q19 dataframe. Store the result in Q23. Try to do this in two different ways.
+
+```{r}
+#Slicing
+#dataframe[start_row:end_row,start_column:end_column]
+Q23 <- Q19[1, ]
+
+Q23
+
+#2nd way Q23 <- Q19[1, C(1:2)]
+```
+
+## Q24: View the element in the last row and 2nd column of the Q19 dataframe. Store the result in Q24.
+
+```{r}
+Q24 <- Q19[3, 2]
+Q24
+```
+
+## Q25: Store the names of the Q19 dataframe in Q25.
+
+```{r}
+#use the names() function to set the names of an object or get the names of an object
+#an object is essentially any data structure or variable that stores data. Objects can represent various types of data
+#When you create a variable or assign a value to something, you're creating an object.
+Q25 <- names(Q19)
+Q25
+```
+
+## Q26: Change the column names of the Q19 dataframe to better represent the data.
+
+```{r}
+Q26 <- data.frame(names = Q16, death_year = Q18)
+Q26
+```
+
+## Q27: Oh Moe! Moe's death year was actually 1975, not 1979. Update this value in the Q26 dataframe (and store the new dataframe as Q27, if you want)
+```{r}
+Q26[3,2] <- 1975
+Q26
+```
+
+
+## Q28: Find the mean death year using the new Q26 dataframe. (Use two different approaches, but no hard-coding!) Make a table of the death years. Which approach (the mean or the table) would be more appropriate to summarize this data? Store the more appropriate summary, either the mean or the table, in Q28.
+
+```{r}
+mean(Q26$death_year)
+
+mean(Q26[, 2])
+
+Q28 <- table(Q26$death_year)
+```
+
+### ------------------------------------------------------------------
+
+# PART 3
+
+Download the 'housing.csv' from Brightspace and save it in the same location as this notebook.
+
+# Where will R be looking for the housing.CSV file?
+
+```{r}
+getwd()
+```
+
+# Check that the file is in my current directory
+
+```{r}
+list.files()
+```
+
+If the housing.csv file isn't listed, then either (a) make sure this notebook and the csv are saved in the same folder, or (b) set your working directory to be the folder were the csv resides
+
+## Q0: Load CSV and store the data frame into an object called "home_data"
+
+```{r}
+#read.csv() function in R Language is used to read “comma separated value” files. It imports data in the form of a data frame.
+home_data <- read.csv("housing.csv")
+```
+
+------------------------------------------------------------------------
+
+## Q1: How many rows and columns are in this data set?
+
+```{r}
+nrow(home_data) # Rows
+ncol(home_data) # Columns
+
+#summary(home_data)
+#str(home_Data)
+```
+
+------------------------------------------------------------------------
+
+## Q2: What are the dimensions of this data set?
+
+```{r}
+dim(home_data)
+```
+
+------------------------------------------------------------------------
+
+## Q3: Print the structure of this data set, but use the CodeGrade-friendly version (`ls.str`)
+
+```{r}
+ls.str(home_data)
+```
+
+------------------------------------------------------------------------
+
+## Q4: Check out the first three rows. Store it in a variable called 'first_three'
+
+```{r}
+#home_data[1:3, ]
+#The head() and tail() are functions used to view the first and last few rows or elements of an object, like a data frame, vector, or matrix. 
+#head(x,n=number)
+first_three = head(home_data, 3)
+#tail(x,n=number)
+```
+
+------------------------------------------------------------------------
+
+## Q5: Check out first three rows, but only the 6th - 8th columns.
+
+```{r}
+#home_data[1:3, 6:8]
+head(home_data, 3)[6:8]
+```
+
+------------------------------------------------------------------------
+
+## Q6: Check out last 3 rows. Can you think of an alternate approach?
+
+```{r}
+tail(home_data, 3)
+```
+
+### Alternate approach
+
+```{r}
+
+```
+## Two types of variables: Categorical and Numeric
+## There are four levels of measurement – nominal, ordinal, and interval/ratio
+## Nominal being the least precise and informative and interval/ratio variable being most precise and informative.
+## Categorical: Nominal (Product Name) (Must be in one category or another), Ordinal (Letter Grades) (Order Matters), Binary (Yes/No)
+## Any assigned numeric values are for the ease of analysis and entry
+## Interval Data: There is no true zero. The order and intervals matter.
+## Ratio Data: The order and intervals matter. There is a true zero. You can use higher level operations. 
+## The numbers associated with non-numeric coded data will not be treated as numeric variables. 
+
+##Numeric: Discrete (Number of Children), Continuous (Speed)
+## str() function displays the internal structure of an object such as an array, list, matrix, factor, or data frame.
+------------------------------------------------------------------------
+
+## Q7: Identify all the nominal variables in this data set. Create a vector with the names and assign it to `nominal_var`. Do not hard-code the answer.
+
+Example: `nominal_var <- c("price", "car")` is hard-coded (and wrong!)
+
+## suburb, type, method, seller_g, council_area, region_name
+
+
+```{r}
+head(home_data)
+names(home_data)
+
+nominal_var <- names(home_data)[c(1, 3, 5, 7, 12, 13)]
+nominal_var
+```
+
+------------------------------------------------------------------------
+
+## Q8: Find summary statistics for the second nominal variable you indicated above.
+
+## With nominal data, we make tables of counts and tables of proportions
+
+```{r}
+#Use table for nominal data
+table(home_data$type)
+```
+
+```{r}
+proportions(table(home_data$type))
+
+round(proportions(table(home_data$type)), 3)
+
+### Another (older) approach
+
+#round(prop.table(table(home_data$type)), 3)
+```
+
+------------------------------------------------------------------------
+
+## Q9: Summarize the suburb variable in a table, create proportions (rounded to four decimal places), and show only the first 10 entries.
+
+```{r}
+#table(home_data$suburb)
+
+
+#head(round(proportions(table(home_data$suburb)), 4), 10)
+```
+
+------------------------------------------------------------------------
+
+## Q10: How many unique sellers are there? Show the first 25 sellers.
+
+The `unique()` function returns the unique values of a column in a data frame.
+
+Extension: How many homes are sold, on average, for each seller?
+
+```{r}
+#table() function is used to create contingency tables or frequency tables from categorical data. It counts the occurrences of each unique value in a vector, factor, or data frame, and returns the result as a table 
+length(unique(home_data$seller_g))
+
+table(home_data$seller_g[1:25])
+```
+
+```{r}
+# Calculate rate: homes sold per seller
+nrow(home_data) / length(unique(home_data$seller_g))
+```
+
+------------------------------------------------------------------------
+
+## Q11: Identify the only ordinal data in this data set. Get its unique values and assign it to a variable named `ordinal_levels`.
+
+```{r}
+ordinal_levels <- unique(home_data["size_class"])
+ordinal_levels
+#size_class
+```
+
+------------------------------------------------------------------------
+
+## Q12: Make a table of proportions of the ordinal data you identified above. Round to 3 decimal places. What do you notice?
+
+```{r}
+round(proportions(table(home_data["size_class"])),3)
+```
+
+------------------------------------------------------------------------
+
+## Q13: Make a horizontal boxplot of size_class and building area. Remember to label the axes with the variable name. Why is this plot not that helpful?
+
+```{r}
+#horizontal boxplot can be created using the boxplot() function with the horizontal = TRUE argument
+boxplot(home_data$building_area ~ home_data$size_class, 
+        horizontal = TRUE,
+        las = 1,                  # rotate the names on the y-axis
+        cex.axis = 0.5,           # make name on y-axis smaller font
+        cex.lab = 0.75,           # make variable names smaller
+        xlab = 'Building Area',
+        ylab = 'Size Class'
+        )
+```
+
+### Let's ignore the outliers (building areas less than 9000) and make a boxplot.
+
+I'll demonstrate this in the solution video.
+
+```{r}
+home_data_9000 <- home_data[home_data$building_area < 9000, ]
+
+boxplot(home_data$building_area ~ home_data$size_class, 
+        horizontal = TRUE,
+        las = 1,                  # rotate the names on the y-axis
+        cex.axis = 0.5,           # make name on y-axis smaller font
+        cex.lab = 0.75,           # make variable names smaller
+        xlab = 'Building Area (all those <9000)',   
+        ylab = 'Size Class'
+        )
+```
+
+### Let's ignore even more outliers (building areas less than 800) and make a boxplot.
+
+I'll demonstrate this in the solution video.
+
+```{r}
+home_data_800 <- home_data[home_data$building_area < 800, ]
+
+boxplot(home_data_800$building_area ~ home_data_800$size_class, 
+        horizontal = TRUE,
+        las = 1,                  # rotate the names on the y-axis
+        cex.axis = 0.5,           # make name on y-axis smaller font
+        cex.lab = 0.75,           # make variable names smaller
+        xlab = 'Building Area (all those <800)',   
+        ylab = 'Size Class',
+        main = "Size Class is dependent on Building Size"
+        )
+```
+
+------------------------------------------------------------------------
+
+## Q14: Identify the all the interval data variables. What questions would we ask to determine what counts as interval data?
+
+```{r}
+head(home_data, 3)
+
+
+```
+
+The area below is for notes on Q14. See solution video.
+
+1)  maintenance_score have equally spaced entries
+
+2)  Does it have a true zero (as ratio data does?) 
+    Temperature is interval data because 0 doesn't mean the absence of temperature
+    For "bedroom" data, 0 means the absence of any bedrooms (so it's ratio)
+
+3)  Is a zero here the "absence" of maintenance (ratio) or does zero mean its really poorly maintained? 
+    Is the absence of maintenance the same as poor maintenance?
+
+4)  Is a maintenance score of 8 twice as good as a 4? (ratio)
+
+5)  SAT scores and IQ tests don't have an absolute zero, so there are interval data; is that true here?
+
+6)  Maybe it's ordinal (ordinal coded as numeric)
+
+------------------------------------------------------------------------
+
+## Nominal: Categorical data with no order (e.g., factor in R).
+## Ordinal: Categorical data with a meaningful order (e.g., ordered() in R).
+## Interval: Numerical data with equal intervals but no true zero (e.g., temperature).
+## Ratio: Numerical data with equal intervals and a true zero (e.g., weight, height).
+
+## Q15: Identify the all the ratio data and assign the names to `ratio_var`. Do not hard-code the answer.
+
+Example: `ratio_var <- "rooms"` is hard-coded (and wrong)
+
+```{r}
+colnames(home_data)
+head(home_data, 3)
+
+#colnames(home_data)[c(2, 4, 8:11)]
+```
+
+------------------------------------------------------------------------
+
+## Q16: Identify all discrete numeric variables in the data set. Create a vector with all these variable names and assign it to `discrete_var`.
+
+Example: `discrete_var <- c("seller_g", "council_area")` is hard-coded (and wrong)
+
+Note: This is just an example. It does *not* mean there are only 2 discrete variables in the data set.
+
+```{r}
+colnames(home_data)[c(2, 6, 8:10)]
+
+```
+
+------------------------------------------------------------------------
+
+## Q17: Identify all continuous variables in the data set. Create a vector with all these variable names and assign it to `continuous_var`.
+
+Example: `continuous_var <- c("bedrooms")` is hard-coded (and wrong)
+
+Note: This is just an example. It does not mean there are only 3 continuous variables in the data set.
+
+```{r}
+colnames(home_data)[c(4, 11)]
+```
+
+------------------------------------------------------------------------
+
+## Q18: How many NAs are in this data set?
+## is.na() is used to deal with missing values in the dataset or data frame. We can use this method to check the NA field in a data frame and help to fill them. 
+```{r}
+sum(is.na(home_data)) # Sum up the "is an NA"
+```
+
